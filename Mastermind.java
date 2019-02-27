@@ -14,8 +14,11 @@ public class Mastermind {
 		joost.spelen();
 		
 		for (int i=0; i<4;i++) {
-			spel.checkLetterInGok(i);
+			spel.checkLetterOpGoedePlek(i);
+			spel.checkLetterAanwezig(i);
+			spel.checkLetterAfwezig(i);
 			}//end for loop
+		System.out.println("	 lettersInCode:"+MastermindSpel.letterInCode);
 		
 	}//end main
 
@@ -30,7 +33,9 @@ public class Mastermind {
 class MastermindSpel{
 		
 	static String code = "";
-		
+	static String letterInCode = "";
+
+	
 //	constructor geeft bij elk nieuw spel een code
 		MastermindSpel() {
 			for(int i =0; i<4;i++) {
@@ -53,14 +58,25 @@ class MastermindSpel{
 				}//end if	
 			//	controle of de code de juiste letters bevat
 				for (int i=0; i<codeGok.length();i++) {
-					if (codeGok.charAt(0) != 'q' && invoerGeldig == true && codeGok.charAt(i) != 'a' && codeGok.charAt(i) != 'b' && codeGok.charAt(i) != 'c' && codeGok.charAt(i) != 'd' && codeGok.charAt(i) != 'e' && codeGok.charAt(i) != 'f') {
+					if (codeGok.charAt(0) != 'q' 
+							&& invoerGeldig == true 
+							&& codeGok.charAt(i) != 'a' 
+							&& codeGok.charAt(i) != 'b' 
+							&& codeGok.charAt(i) != 'c' 
+							&& codeGok.charAt(i) != 'd' 
+							&& codeGok.charAt(i) != 'e' 
+							&& codeGok.charAt(i) != 'f') {
+						
 						System.out.println("De code '"+ Speler.spelerInvoer + "' bevat onjuiste letters.");
 						invoerGeldig = false;
 						break;
 					}//end if loop
 				}//end for loop
 			//	controle op lengte invoer
-				if(codeGok.length() != 4 && codeGok.charAt(0) != 'q' && invoerGeldig == true) {
+				if(codeGok.length() != 4 
+						&& codeGok.charAt(0) != 'q' 
+						&& invoerGeldig == true) {
+					
 					System.out.println("De code '" + Speler.spelerInvoer + "' bestaat niet uit 4 letters.");
 					invoerGeldig = false;
 				}// end if
@@ -72,23 +88,34 @@ class MastermindSpel{
 	}//end codeControleren
 
 	
-	public void checkLetterInGok(int i) {
+	public void checkLetterOpGoedePlek(int i) {
 		for(int j =0; j < Speler.spelerInvoer.length(); j++) {
 			if (Speler.spelerInvoer.charAt(i) == MastermindSpel.code.charAt(i)) {
 				System.out.print("0");
+				letterInCode += Speler.spelerInvoer.charAt(i);
 				break;
 			}//end if
-			else if (Speler.spelerInvoer.charAt(i) != MastermindSpel.code.charAt(i) && Speler.spelerInvoer.charAt(i) == MastermindSpel.code.charAt(j)) {
-				System.out.print("+");
+		}//end for
+	}//end methode checkLetterOpGoedePlek
+
+	public void checkLetterAanwezig(int i) {
+		for(int j =0; j < Speler.spelerInvoer.length(); j++) {
+			if (Speler.spelerInvoer.charAt(i) != MastermindSpel.code.charAt(i) 
+					&& Speler.spelerInvoer.charAt(i) == MastermindSpel.code.charAt(j)){
+				System.out.print(i+1);
 				break;
-			}//end else if
-			else if (Speler.spelerInvoer.charAt(i) != MastermindSpel.code.charAt(j) && Speler.spelerInvoer.charAt(i) != MastermindSpel.code.charAt(j)){
+			}//end if
+		}//end for
+	}//end methode checkLetterAanwezig
+
+	public void checkLetterAfwezig(int i) {
+		for(int j =0; j < Speler.spelerInvoer.length(); j++) {
+			if (Speler.spelerInvoer.charAt(i) != MastermindSpel.code.charAt(j)){
 				System.out.print("X");
 				break;
-			}// end else if
+			}// end if
 		}//end for
-}//end methode checkLetterCorrect
-	
+	}//end methode checkLetterAfwezig
 	
 	
 	
