@@ -7,30 +7,27 @@ public class Mastermind {
 		System.out.println("Welkom bij Mastermind! Probeer de code van vier letters te raden. Gebruik de letters a, b, c, d, e, f. Letters mogen vaker voorkomen.");
 		MastermindSpel spel = new MastermindSpel();
 		
-		for(int i=0;i<4;i++) {
-		System.out.print(spel.code[i]);
-		}//end for
+		
+		System.out.print(spel.code);
 		System.out.println("");
 		Speler joost = new Speler();
 		joost.spelen();
 		
 		for (int i=0; i<4;i++) {
-			if (Speler.spelerInvoer.charAt(i) == spel.code[i]) { 
+			if (Speler.spelerInvoer.charAt(i) == MastermindSpel.code.charAt(i)) { 
 				System.out.print(0);
 			}
-			else if(Speler.spelerInvoer.charAt(i) == spel.code[i+1]) {
-				System.out.print("+");
-			}
-			
+			//else if() {
+			//System.out.print("+");
+			//}
 			else{
 					System.out.print("X");
 				}//end ifelse
-	
-		
 		}//end for loop
 		
-		
 	}//end main
+
+	
 
 }//end class Mastermind
 
@@ -40,15 +37,16 @@ public class Mastermind {
 
 class MastermindSpel{
 		
-	char code[] = new char[4];
+	static String code = "";
 		
 //	constructor geeft bij elk nieuw spel een code
 		MastermindSpel() {
-		char codeArray[] = {'a','b','c','d','e','f'};
 			for(int i =0; i<4;i++) {
-				Random letter = new Random();
-				int letterIndex = letter.nextInt(6);
-				code [i] = codeArray[letterIndex]; 
+				Random r = new Random();
+				int letterIndex = r.nextInt(6);
+				char letter = (char)(letterIndex + 97);
+				code += letter; 
+				
 			}//end for loop
 		}//end constructor MastermindSpel
 
