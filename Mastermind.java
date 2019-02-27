@@ -14,16 +14,8 @@ public class Mastermind {
 		joost.spelen();
 		
 		for (int i=0; i<4;i++) {
-			if (Speler.spelerInvoer.charAt(i) == MastermindSpel.code.charAt(i)) { 
-				System.out.print(0);
-			}
-			//else if() {
-			//System.out.print("+");
-			//}
-			else{
-					System.out.print("X");
-				}//end ifelse
-		}//end for loop
+			spel.checkLetterInGok(i);
+			}//end for loop
 		
 	}//end main
 
@@ -79,6 +71,27 @@ class MastermindSpel{
 				}//end if
 	}//end codeControleren
 
+	
+	public void checkLetterInGok(int i) {
+		for(int j =0; j < Speler.spelerInvoer.length(); j++) {
+			if (Speler.spelerInvoer.charAt(i) == MastermindSpel.code.charAt(i)) {
+				System.out.print("0");
+				break;
+			}//end if
+			else if (Speler.spelerInvoer.charAt(i) != MastermindSpel.code.charAt(i) && Speler.spelerInvoer.charAt(i) == MastermindSpel.code.charAt(j)) {
+				System.out.print("+");
+				break;
+			}//end else if
+			else if (Speler.spelerInvoer.charAt(i) != MastermindSpel.code.charAt(j) && Speler.spelerInvoer.charAt(i) != MastermindSpel.code.charAt(j)){
+				System.out.print("X");
+				break;
+			}// end else if
+		}//end for
+}//end methode checkLetterCorrect
+	
+	
+	
+	
 	
 //	als een speler stopt is het spel voorbij
 	static void stoppen() {
