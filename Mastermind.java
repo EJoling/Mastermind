@@ -13,12 +13,7 @@ public class Mastermind {
 		Speler joost = new Speler();
 		joost.spelen();
 		
-		for (int i=0; i<4;i++) {
-			spel.checkLetterOpGoedePlek(i);
-			spel.checkLetterAanwezig(i);
-			spel.checkLetterAfwezig(i);
-			}//end for loop
-		System.out.println("	 lettersInCode:"+MastermindSpel.letterInCode);
+		
 		
 	}//end main
 
@@ -54,7 +49,7 @@ class MastermindSpel{
 			//	controle op stoppen
 				if(codeGok.charAt(0) == 'q') {
 					invoerGeldig = false;
-					MastermindSpel.stoppen();
+					stoppen();
 				}//end if	
 			//	controle of de code de juiste letters bevat
 				for (int i=0; i<codeGok.length();i++) {
@@ -83,12 +78,22 @@ class MastermindSpel{
 			//	als de code 4 letters heeft én het zijn letters van de invoer die mag dan wordt de code gecontroleerd
 				if(invoerGeldig == true) {
 					System.out.println("De code wordt gecheckt. 0: letter op de juiste plaats; +: letter zit wel in de code maar niet op deze plaats; X: letter zit niet in de code");
-					Speler.InvoerenMogelijk= false;
 				}//end if
 	}//end codeControleren
 
+	// Controle op gokCheck: zitten de letters erin op de juiste plek, erin op een andere plek of er niet in
+	static void gokCheck() {
+		for (int i=0; i<4;i++) {
+			checkLetterOpGoedePlek(i);
+			checkLetterAanwezig(i);
+			checkLetterAfwezig(i);
+			}//end for loop
+		System.out.println("	 lettersInCode:"+MastermindSpel.letterInCode);
+	}//end methode gokCheck
 	
-	public void checkLetterOpGoedePlek(int i) {
+	
+	// Checkt of de letter in spelerInvoer op dezelfde plek staat als in de code
+	static void checkLetterOpGoedePlek(int i) {
 		for(int j =0; j < Speler.spelerInvoer.length(); j++) {
 			if (Speler.spelerInvoer.charAt(i) == MastermindSpel.code.charAt(i)) {
 				System.out.print("0");
@@ -98,19 +103,21 @@ class MastermindSpel{
 		}//end for
 	}//end methode checkLetterOpGoedePlek
 
-	public void checkLetterAanwezig(int i) {
+	// Checkt of de letter in spelerInvoer wel in de code staat, maar niet op dezelfde plek
+	static void checkLetterAanwezig(int i) {
 		for(int j =0; j < Speler.spelerInvoer.length(); j++) {
 			if (Speler.spelerInvoer.charAt(i) != MastermindSpel.code.charAt(i) 
 					&& Speler.spelerInvoer.charAt(i) == MastermindSpel.code.charAt(j)){
-				System.out.print(i+1);
+				System.out.print("+");
 				break;
 			}//end if
 		}//end for
 	}//end methode checkLetterAanwezig
-
-	public void checkLetterAfwezig(int i) {
+	// checkt of de letter in spelerInvoer niet in de code zit.
+	static void checkLetterAfwezig(int i) {
 		for(int j =0; j < Speler.spelerInvoer.length(); j++) {
-			if (Speler.spelerInvoer.charAt(i) != MastermindSpel.code.charAt(j)){
+			if (Speler.spelerInvoer.charAt(i) != MastermindSpel.code.charAt(j)
+					&& Speler.spelerInvoer.charAt(i) == MastermindSpel.code.charAt(j)){
 				System.out.print("X");
 				break;
 			}// end if
@@ -142,7 +149,7 @@ class Speler{
 				Scanner scanner = new Scanner(System.in);
 				spelerInvoer = scanner.nextLine();	
 				MastermindSpel.invoerControleren(spelerInvoer);
-	
+				MastermindSpel.gokCheck();
 	
 	
 			}//end while
