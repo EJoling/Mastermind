@@ -29,7 +29,7 @@ class MastermindSpel{
 		
 	static String code = "";
 	static String letterInCode = "";
-
+	static int AantalBeurten;
 	
 //	constructor geeft bij elk nieuw spel een code
 		MastermindSpel() {
@@ -89,6 +89,8 @@ class MastermindSpel{
 			checkLetterAfwezig(i);
 			}//end for loop
 		System.out.println("	 lettersInCode:"+MastermindSpel.letterInCode);
+		AantalBeurten++;
+		System.out.println("Dit was beurt " + AantalBeurten + ". Je hebt nog "+(12-AantalBeurten)+" beurten om de code te raden.");
 	}//end methode gokCheck
 	
 	
@@ -144,7 +146,7 @@ class Speler{
 	
 	void spelen() {
 	
-			while(InvoerenMogelijk == true && gestopt == false) {
+			while(InvoerenMogelijk == true && gestopt == false && MastermindSpel.AantalBeurten <12) {
 				System.out.println("Toets je invoer in: ");
 				Scanner scanner = new Scanner(System.in);
 				spelerInvoer = scanner.nextLine();	
