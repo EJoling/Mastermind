@@ -7,15 +7,10 @@ public class Speler {
 	static String spelerInvoer;
 	
 	void spelen() {
-	
-			while(InvoerenMogelijk == true && gestopt == false && MastermindSpel.aantalBeurten >0) {
-				invoeren();
-				
-				MastermindSpel.gokCheck();
-	
-	
-			}//end while
-	
+		while(InvoerenMogelijk == true && gestopt == false && MastermindSpel.aantalBeurten >0) {
+			invoeren();
+			MastermindSpel.gokCheck();
+		}//end while
 	
 	}//end methode spelen
 	

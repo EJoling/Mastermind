@@ -6,9 +6,7 @@ public class Mastermind {
 	public static void main (String[] args) {
 		Speler joost = new Speler();
 		MastermindSpel spel = new MastermindSpel();
-	//	System.out.println(spel.code);
-		spel.starten(joost);
-	
+		spel.starten(joost);	
 	}//end main
 	
 		

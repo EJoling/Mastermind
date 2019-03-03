@@ -40,7 +40,6 @@ public class MastermindSpel{
 					Speler.stoppen();
 				}//end if	
 				
-				
 			//	controle of de code de juiste letters bevat
 				for (int i=0; i<codeGok.length();i++) {
 					if (codeGok.charAt(0) != 'q' 
@@ -57,8 +56,8 @@ public class MastermindSpel{
 					}//end if loop
 					else { 
 						invoerGeldig = true;
-						}//end else
-					}//end for loop
+					}//end else
+				}//end for loop
 				
 				//	controle op lengte invoer
 				if(codeGok.length() != 4 
@@ -71,17 +70,18 @@ public class MastermindSpel{
 				
 	}//end invoerControleren
 
-	// Controle op gokCheck: zitten de letters erin op de juiste plek, erin op een andere plek of er niet in
+	// Controle op gokCheck: zitten de letters erin op de juiste plek en zitten er letters in op een andere plek 
 	static void gokCheck() {
 		if(Speler.gestopt != true) {
 			System.out.println("De code wordt gecheckt.");
+			aantalBeurten--;
 			MastermindSpel.AantalCorrect = 0;
 			MastermindSpel.AantalAanwezig = 0;
 			MastermindSpel.codeKopie = MastermindSpel.code.toCharArray();
+			
 			for (int i=0; i<Speler.spelerInvoer.length();i++) {
 				checkLetterOpGoedePlek(i);
 			}//end for loop
-		
 			for (int i=0; i<Speler.spelerInvoer.length();i++) {
 				checkLetterAanwezig(i);
 			}//end for loop
@@ -96,12 +96,13 @@ public class MastermindSpel{
 					break;
 				}//end switch
 			}//end for
-			
-			
+		
 			
 			if (MastermindSpel.AantalCorrect == 4) {
-				System.out.println("Goed gedaan, je hebt de code gekraakt!");
-				Speler.gestopt = true;
+				System.out.println("Goed gedaan, je hebt de code in "+(12-aantalBeurten)+" beurten gekraakt!");
+
+				System.out.println("De code was inderdaad "+ code);
+				Speler.stoppen();
 			}//end if
 			else if(MastermindSpel.AantalCorrect < 4 && MastermindSpel.AantalCorrect != 0) {
 				System.out.println("Aantal letters op de goede plek: "+MastermindSpel.AantalCorrect+ ".");
@@ -115,15 +116,27 @@ public class MastermindSpel{
 			if(MastermindSpel.AantalCorrect == 0 && MastermindSpel.AantalAanwezig == 0) {
 				System.out.println("Helaas, van de letters die je hebt ingevoerd staat er niks in de te raden code.");
 			}//end else if3
-			
+	
+	/*		
 //			Print om te testen
 			for(int i =0 ; i < MastermindSpel.codeKopie.length ; i++) {
 				System.out.print(MastermindSpel.codeKopie[i]);
 			}
 				System.out.println("");
+	*/
 			
-		aantalBeurten--;
-		System.out.println("Dit was beurt " + (12-aantalBeurten) + ". Je hebt nog "+aantalBeurten+" beurten om de juiste code te raden.");
+			if(aantalBeurten > 1 && Speler.gestopt != true) {
+				System.out.println("Dit was beurt " + (12-aantalBeurten) + ". Je hebt nog "+aantalBeurten+" beurten om de juiste code te raden.");
+			}//end if
+			else if(aantalBeurten == 1 && Speler.gestopt != true) {
+				System.out.println("Je hebt de code nog niet geraden. LET OP! Dit is de laatste kans!");
+			}//end if else
+			else if(aantalBeurten == 0 && Speler.gestopt != true) {
+				System.out.println("Helaas, je hebt de code niet geraden. Je beurten zijn voorbij");
+				Speler.stoppen();
+				System.out.println("De code was: "+ code);
+			}//end if else
+			
 		}//end if
 	}//end methode gokCheck
 	
@@ -131,7 +144,7 @@ public class MastermindSpel{
 	// Checkt of de letter in spelerInvoer op dezelfde plek staat als in de code
 	//verander dan die letter in codeKopie in Z zodat de volgende letter deze niet nogmaals beoordeelt
 	static void checkLetterOpGoedePlek(int i) {
-			if (Speler.spelerInvoer.charAt(i) == MastermindSpel.codeKopie[i]) {
+			if (Speler.spelerInvoer.charAt(i) == MastermindSpel.code.charAt(i)) {
 				MastermindSpel.codeKopie[i] = 'Z';
 			}//end if
 	}//end methode checkLetterOpGoedePlek
@@ -141,14 +154,10 @@ public class MastermindSpel{
 	static void checkLetterAanwezig(int i) {
 		for(int j =0; j < MastermindSpel.codeKopie.length; j++) {
 			if (Speler.spelerInvoer.charAt(i) == MastermindSpel.codeKopie[j]){
-				MastermindSpel.codeKopie[i] = 'W';
+				MastermindSpel.codeKopie[j] = 'W';
 				break;
 			}//end if
 		}//end for
 	}//end methode checkLetterAanwezig
-
-	
-
-
 	
 }//end class MastermindSpel
