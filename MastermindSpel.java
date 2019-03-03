@@ -5,6 +5,7 @@ public class MastermindSpel{
 		
 	static String code = "";
 	static char[] codeKopie = new char[4];
+	static char[] InvoerKopie = new char[4];
 	static int aantalBeurten = 12;
 	static Speler speler;
 	static int AantalCorrect;
@@ -78,14 +79,16 @@ public class MastermindSpel{
 			MastermindSpel.AantalCorrect = 0;
 			MastermindSpel.AantalAanwezig = 0;
 			MastermindSpel.codeKopie = MastermindSpel.code.toCharArray();
+			MastermindSpel.InvoerKopie = Speler.spelerInvoer.toCharArray();
 			
 			for (int i=0; i<Speler.spelerInvoer.length();i++) {
 				checkLetterOpGoedePlek(i);
 			}//end for loop
+			
 			for (int i=0; i<Speler.spelerInvoer.length();i++) {
 				checkLetterAanwezig(i);
 			}//end for loop
-			
+
 			for (char element:MastermindSpel.codeKopie) {
 				switch(element) {
 				case'Z': 
@@ -117,12 +120,17 @@ public class MastermindSpel{
 				System.out.println("Helaas, van de letters die je hebt ingevoerd staat er niks in de te raden code.");
 			}//end else if3
 	
-	/*		
+/*			
 //			Print om te testen
 			for(int i =0 ; i < MastermindSpel.codeKopie.length ; i++) {
 				System.out.print(MastermindSpel.codeKopie[i]);
 			}
 				System.out.println("");
+//				Print om te testen
+				for(int i =0 ; i < MastermindSpel.InvoerKopie.length ; i++) {
+					System.out.print(MastermindSpel.InvoerKopie[i]);
+				}
+					System.out.println("");
 	*/
 			
 			if(aantalBeurten > 1 && Speler.gestopt != true) {
@@ -146,6 +154,7 @@ public class MastermindSpel{
 	static void checkLetterOpGoedePlek(int i) {
 			if (Speler.spelerInvoer.charAt(i) == MastermindSpel.code.charAt(i)) {
 				MastermindSpel.codeKopie[i] = 'Z';
+				MastermindSpel.InvoerKopie[i] = 'Z';
 			}//end if
 	}//end methode checkLetterOpGoedePlek
 
@@ -153,8 +162,9 @@ public class MastermindSpel{
 	//verandert dan deze letter in codeKopie in W zodat de volgende letter deze niet nogmaals beoordeelt
 	static void checkLetterAanwezig(int i) {
 		for(int j =0; j < MastermindSpel.codeKopie.length; j++) {
-			if (Speler.spelerInvoer.charAt(i) == MastermindSpel.codeKopie[j]){
-				MastermindSpel.codeKopie[j] = 'W';
+			if (MastermindSpel.codeKopie[i] == MastermindSpel.InvoerKopie[j]
+					&& MastermindSpel.InvoerKopie[i] != 'Z'){
+				MastermindSpel.codeKopie[i] = 'W';
 				break;
 			}//end if
 		}//end for
