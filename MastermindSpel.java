@@ -3,12 +3,12 @@ import java.util.Random;
 
 public class MastermindSpel{
 		
-	static  String code = "";
-	static int letterInCode[] = {0,0,0,0};
+	static String code = "";
+	static char[] codeKopie = new char[4];
 	static int aantalBeurten = 12;
 	static Speler speler;
-	static boolean codeGecheckt[] = new boolean[4];
-	static boolean gokGecheckt[] = new boolean[4];
+	static int AantalCorrect;
+	static int AantalAanwezig;
 	
 //	constructor geeft bij elk nieuw spel een code
 		MastermindSpel() {
@@ -69,87 +69,86 @@ public class MastermindSpel{
 					Speler.invoeren();
 				}// end if
 				
-				
-				
-			//	als de code 4 letters heeft én het zijn letters van de invoer die mag dan wordt de code gecontroleerd
-			//	if(invoerGeldig == true && codeGok.charAt(0) != 'q') {
-			//		System.out.println("De code wordt gecheckt. 0: letter op de juiste plaats; +: letter zit wel in de code maar niet op deze plaats; X: letter zit niet in de code");
-			//	}//end if
 	}//end invoerControleren
 
-	
-	
-	
-	
-	
 	// Controle op gokCheck: zitten de letters erin op de juiste plek, erin op een andere plek of er niet in
 	static void gokCheck() {
 		if(Speler.gestopt != true) {
-			System.out.println("De code wordt gecheckt. 0: letter op de juiste plaats; +: letter zit wel in de code maar niet op deze plaats; X: letter zit niet in de code");
-			
-			
-			MastermindSpel.codeGecheckt = new boolean [4];
-			MastermindSpel.gokGecheckt = new boolean [4];
+			System.out.println("De code wordt gecheckt.");
+			MastermindSpel.AantalCorrect = 0;
+			MastermindSpel.AantalAanwezig = 0;
+			MastermindSpel.codeKopie = MastermindSpel.code.toCharArray();
 			for (int i=0; i<Speler.spelerInvoer.length();i++) {
 				checkLetterOpGoedePlek(i);
-				checkLetterAanwezig(i);
-				//checkLetterAfwezig(i);			
 			}//end for loop
 		
-//			for loop om te testen
-			System.out.println("");
-			for(int i=0;i<4;i++) {
-				System.out.println("CodeGecheckt: " + codeGecheckt[i]);
-				}//end for print
-			System.out.println("");
+			for (int i=0; i<Speler.spelerInvoer.length();i++) {
+				checkLetterAanwezig(i);
+			}//end for loop
+			
+			for (char element:MastermindSpel.codeKopie) {
+				switch(element) {
+				case'Z': 
+					MastermindSpel.AantalCorrect++;
+					break;
+				case'W': 
+					MastermindSpel.AantalAanwezig++;
+					break;
+				}//end switch
+			}//end for
+			
+			
+			
+			if (MastermindSpel.AantalCorrect == 4) {
+				System.out.println("Goed gedaan, je hebt de code gekraakt!");
+				Speler.gestopt = true;
+			}//end if
+			else if(MastermindSpel.AantalCorrect < 4 && MastermindSpel.AantalCorrect != 0) {
+				System.out.println("Aantal letters op de goede plek: "+MastermindSpel.AantalCorrect+ ".");
+			}//end else if1
+			
+			
+			if (MastermindSpel.AantalAanwezig <= 4 && MastermindSpel.AantalAanwezig != 0) {
+				System.out.println("Aantal letters wel in de code aanwezig, maar op een andere plek: "+MastermindSpel.AantalAanwezig+ " .");
+			}//end else if1
+			
+			if(MastermindSpel.AantalCorrect == 0 && MastermindSpel.AantalAanwezig == 0) {
+				System.out.println("Helaas, van de letters die je hebt ingevoerd staat er niks in de te raden code.");
+			}//end else if3
+			
+//			Print om te testen
+			for(int i =0 ; i < MastermindSpel.codeKopie.length ; i++) {
+				System.out.print(MastermindSpel.codeKopie[i]);
+			}
+				System.out.println("");
 			
 		aantalBeurten--;
-		
 		System.out.println("Dit was beurt " + (12-aantalBeurten) + ". Je hebt nog "+aantalBeurten+" beurten om de juiste code te raden.");
 		}//end if
-		
-	
 	}//end methode gokCheck
 	
 	
 	// Checkt of de letter in spelerInvoer op dezelfde plek staat als in de code
+	//verander dan die letter in codeKopie in Z zodat de volgende letter deze niet nogmaals beoordeelt
 	static void checkLetterOpGoedePlek(int i) {
-			if (Speler.spelerInvoer.charAt(i) == MastermindSpel.code.charAt(i)) {
-				System.out.print("0");
-				codeGecheckt[i]= gokGecheckt[i] = true;
+			if (Speler.spelerInvoer.charAt(i) == MastermindSpel.codeKopie[i]) {
+				MastermindSpel.codeKopie[i] = 'Z';
 			}//end if
 	}//end methode checkLetterOpGoedePlek
 
-	// Checkt of de letter in spelerInvoer wel in de code staat, maar niet op dezelfde plek
+	// Checkt of de letter in spelerInvoer wel in de code staat, maar niet op dezelfde plek: 
+	//verandert dan deze letter in codeKopie in W zodat de volgende letter deze niet nogmaals beoordeelt
 	static void checkLetterAanwezig(int i) {
-		for(int j =0; j < Speler.spelerInvoer.length(); j++) {
-			if (!codeGecheckt [i] &&!gokGecheckt[i]
-					&& Speler.spelerInvoer.charAt(i) == MastermindSpel.code.charAt(j)
-					){
-				System.out.print("+");
-				codeGecheckt[i]= gokGecheckt[j] = true;
+		for(int j =0; j < MastermindSpel.codeKopie.length; j++) {
+			if (Speler.spelerInvoer.charAt(i) == MastermindSpel.codeKopie[j]){
+				MastermindSpel.codeKopie[i] = 'W';
 				break;
 			}//end if
 		}//end for
 	}//end methode checkLetterAanwezig
+
 	
-	// checkt of de letter in spelerInvoer niet in de code zit.
-	static void checkLetterAfwezig(int i) {
-		for(int j =0; j < Speler.spelerInvoer.length(); j++) {
-			if (Speler.spelerInvoer.charAt(i) != MastermindSpel.code.charAt(j)
-					&& MastermindSpel.letterInCode[j]!=1
-					&& MastermindSpel.letterInCode[j]!=5
-					
-					//&& Speler.spelerInvoer.charAt(i) != MastermindSpel.code.charAt(j)
-					){
-				System.out.print("X");
-				MastermindSpel.letterInCode[i]= 0;
-				break;
-			}// end if
-		}//end for
-	}//end methode checkLetterAfwezig
-	
-	
+
 
 	
 }//end class MastermindSpel
